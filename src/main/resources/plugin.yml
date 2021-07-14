@@ -1,0 +1,13 @@
+name: DiscordInviter
+version: ${project.version}
+main: net.mctechnic.discordinviter.main
+api-version: 1.17
+author: TechnicJelle
+description: A simple plugin that invites players to your Discord server if they haven't done so yet
+website: https://github.com/TechnicJelle/
+softdepend:
+  - floodgate
+commands:
+  verify:
+    description: Staff command to verify a player
+    usage: /<command> [player]
