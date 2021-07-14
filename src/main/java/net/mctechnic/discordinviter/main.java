@@ -5,6 +5,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.geysermc.floodgate.api.FloodgateApi;
 
@@ -22,6 +24,8 @@ public final class main extends JavaPlugin implements Listener {
 	FileConfiguration config = getConfig();
 	String link;
 	FloodgateApi floodgateApi;
+	LuckPerms luckPermsApi;
+	//TODO: add alias command "exit"&"quit" for vanilla stop
 
 	@Override
 	public void onEnable() {
@@ -34,19 +38,26 @@ public final class main extends JavaPlugin implements Listener {
 		link = config.getString("link");
 
 		if (Bukkit.getPluginManager().getPlugin("floodgate") != null) {
-			getLogger().info("Gen3 found floodgate!");
+			getLogger().info("Found floodgate!");
 			floodgateApi = FloodgateApi.getInstance();
 		}
 
-		Objects.requireNonNull(this.getCommand("verify")).setExecutor(new CommandVerify());
+		if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
+			RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+			if (provider != null) {
+				luckPermsApi = provider.getProvider();
+				getLogger().info("Found LuckPerms!");
+				Objects.requireNonNull(this.getCommand("verify")).setExecutor(new CommandVerify());
+			}
+		}
 
-		getLogger().info("Gen3 Discord invitation message plugin enabled!");
+		getLogger().info("Discord invitation message plugin enabled!");
 	}
 
 	@Override
 	public void onDisable() {
 		// Plugin shutdown logic
-		getLogger().info("Gen3 Discord invitation message plugin disabled!");
+		getLogger().info("Discord invitation message plugin disabled!");
 	}
 
 	@EventHandler

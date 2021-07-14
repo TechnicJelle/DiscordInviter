@@ -21,8 +21,18 @@ public class CommandVerify implements CommandExecutor {
 					sender.sendMessage(Component.text("You do not have permission to run this command. Please ask a staff member to be verified.").color(NamedTextColor.RED));
 				}
 			} else {
-				sender.sendMessage("Verifying...");
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "op TechnicJelle");
+				if (args.length > 0) {
+					for (String a : args) {
+						Player p = Bukkit.getPlayer(a);
+						if (p != null) {
+							//TODO: check is p already is verified
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + p.getUniqueId() + " promote verification");
+							sender.sendMessage("Verified " + a + " (" + p.getUniqueId() + ")");
+						} else {
+							sender.sendMessage(Component.text("Player " + a + " not found").color(NamedTextColor.RED));
+						}
+					}
+				}
 			}
 			return true;
 		}
