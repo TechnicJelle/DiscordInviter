@@ -6,7 +6,7 @@
 
     <groupId>net.mctechnic</groupId>
     <artifactId>DiscordInviter</artifactId>
-    <version>1.0-BETA</version>
+    <version>1.1-BETA</version>
     <packaging>jar</packaging>
 
     <name>DiscordInviter</name>

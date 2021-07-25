@@ -18,18 +18,31 @@ import org.geysermc.floodgate.api.FloodgateApi;
 public final class main extends JavaPlugin implements Listener {
 
 	FileConfiguration config = getConfig();
-	String link;
+	NamedTextColor textColour;
+	String beforeLink;
+	String linkText;
+	String linkURL;
+	String afterLink;
 	FloodgateApi floodgateApi;
 
 	@Override
 	public void onEnable() {
 		// Plugin startup logic
-		config.addDefault("link", "https://discord.gg/AbC123d");
+		config.options().header("textColour can be one of these: AQUA, BLACK, BLUE, DARK_AQUA, DARK_BLUE, DARK_GRAY, DARK_GREEN, DARK_PURPLE, DARK_RED, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE, YELLOW");
+		config.addDefault("textColour", "AQUA");
+		config.addDefault("beforeLink", "Join our");
+		config.addDefault("linkText", "Discord Server");
+		config.addDefault("linkURL", "https://discord.gg/AbC123d");
+		config.addDefault("afterLink", "and read the rules to get access to Creative Mode!");
 		config.options().copyDefaults(true);
 		saveConfig();
 
 		getServer().getPluginManager().registerEvents(this, this);
-		link = config.getString("link");
+		textColour = getTextColour(config.getString("textColour"));
+		beforeLink = config.getString("beforeLink");
+		linkText = config.getString("linkText");
+		linkURL = config.getString("linkURL");
+		afterLink = config.getString("afterLink");
 
 		if (Bukkit.getPluginManager().getPlugin("floodgate") != null) {
 			getLogger().info("Found floodgate!");
@@ -50,16 +63,38 @@ public final class main extends JavaPlugin implements Listener {
 		Player p = e.getPlayer();
 
 		if (p.getGameMode() == GameMode.SPECTATOR) {
-			String linkPart = "Discord channel";
+			String linkPart = linkText;
 			if (floodgateApi != null && floodgateApi.isFloodgatePlayer(p.getUniqueId()))
-				linkPart += " (" + link + ")";
+				linkPart += " (" + linkURL + ")";
 
-			TextComponent tc = Component.text("Join our ").color(NamedTextColor.AQUA)
+			TextComponent tc = Component.text(beforeLink + " ").color(textColour)
 					.append(Component.text(linkPart, NamedTextColor.BLUE).decoration(TextDecoration.UNDERLINED, true)
-							.hoverEvent(Component.text(link, NamedTextColor.BLUE)))
-					.clickEvent(ClickEvent.openUrl(link))
-					.append(Component.text(" and read the rules to get access to Creative Mode!", NamedTextColor.AQUA));
+							.hoverEvent(Component.text(linkURL, NamedTextColor.BLUE)))
+					.clickEvent(ClickEvent.openUrl(linkURL))
+					.append(Component.text(" " + afterLink, textColour));
 			p.sendMessage(tc);
 		}
+	}
+
+	private NamedTextColor getTextColour(String col) {
+		return switch (col) {
+			case "AQUA" -> NamedTextColor.AQUA;
+			case "BLACK" -> NamedTextColor.BLACK;
+			case "BLUE" -> NamedTextColor.BLUE;
+			case "DARK_AQUA" -> NamedTextColor.DARK_AQUA;
+			case "DARK_BLUE" -> NamedTextColor.DARK_BLUE;
+			case "DARK_GRAY" -> NamedTextColor.DARK_GRAY;
+			case "DARK_GREEN" -> NamedTextColor.DARK_GREEN;
+			case "DARK_PURPLE" -> NamedTextColor.DARK_PURPLE;
+			case "DARK_RED" -> NamedTextColor.DARK_RED;
+			case "GOLD" -> NamedTextColor.GOLD;
+			case "GRAY" -> NamedTextColor.GRAY;
+			case "GREEN" -> NamedTextColor.GREEN;
+			case "LIGHT_PURPLE" -> NamedTextColor.LIGHT_PURPLE;
+			case "RED" -> NamedTextColor.RED;
+			case "WHITE" -> NamedTextColor.WHITE;
+			case "YELLOW" -> NamedTextColor.YELLOW;
+			default -> null;
+		};
 	}
 }
