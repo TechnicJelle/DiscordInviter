@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.geysermc.floodgate.api.FloodgateApi;
 
-public final class main extends JavaPlugin implements Listener {
+public final class Main extends JavaPlugin implements Listener {
 
 	FileConfiguration config = getConfig();
 	NamedTextColor textColour;
