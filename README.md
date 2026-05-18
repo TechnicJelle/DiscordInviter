@@ -11,9 +11,9 @@ You can safely reload the config by reloading this plugin with [PlugManX](https:
 ## Screenshots:
 
 **Java Edition:**\
-![Java Edition](/.github/Java%20Edition.png)
+![Java Edition](/.github/JavaEdition.png)
 
 **Bedrock Edition (Floodgate):**\
 This plugin has optional support for the https://github.com/GeyserMC/Floodgate plugin!\
 Bedrock Edition doesn't have clickable links, so for Bedrock players the link is displayed in brackets.\
-![Bedrock Edition (Floodgate)](/.github/Bedrock%20Edition%20(Floodgate).png)
+![Bedrock Edition (Floodgate)](/.github/BedrockEdition(Floodgate).png)
